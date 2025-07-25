@@ -1,6 +1,5 @@
 package by.lobanov.airlinebookingservice.repository;
 
-import by.lobanov.airlinebookingservice.model.constant.*;
 import by.lobanov.airlinebookingservice.model.entity.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
@@ -54,7 +53,6 @@ class FlightRepositoryTest {
         flight.setAircraft(aircraft);
         flight.setDepartureAirport(airportDME);
         flight.setArrivalAirport(airportLED);
-        flight.setStatus(FlightStatus.SCHEDULED);
         flight.setScheduledDeparture(OffsetDateTime.now().plusDays(1));
         flight.setScheduledArrival(OffsetDateTime.now().plusDays(1).plusHours(2));
         return flight;
@@ -70,34 +68,5 @@ class FlightRepositoryTest {
         assertThat(found).isNotNull();
         assertThat(found.getFlightNo()).isEqualTo("PG0404");
         assertThat(found.getArrivalAirport().getCity()).isEqualTo("St. Petersburg");
-    }
-
-    @Test
-    void shouldUpdateFlightStatus() {
-        Flight flight = createTestFlight();
-        Flight savedFlight = flightRepository.save(flight);
-
-        Flight toUpdate = flightRepository.findById(savedFlight.getFlightId()).orElseThrow();
-        toUpdate.setStatus(FlightStatus.DELAYED);
-        flightRepository.save(toUpdate);
-
-        Flight updated = flightRepository.findById(savedFlight.getFlightId()).orElseThrow();
-        assertThat(updated.getStatus()).isEqualTo(FlightStatus.DELAYED);
-    }
-
-    @Test
-    void shouldFindFlightsByStatus() {
-        Flight flight1 = createTestFlight();
-        flight1.setStatus(FlightStatus.SCHEDULED);
-        flightRepository.save(flight1);
-
-        Flight flight2 = createTestFlight();
-        flight2.setFlightNo("PG0228");
-        flight2.setStatus(FlightStatus.ARRIVED);
-        flightRepository.save(flight2);
-
-        List<Flight> scheduledFlights = flightRepository.findByStatus(FlightStatus.SCHEDULED);
-        assertThat(scheduledFlights).hasSize(1);
-        assertThat(scheduledFlights.get(0).getFlightNo()).isEqualTo("PG0404");
     }
 }

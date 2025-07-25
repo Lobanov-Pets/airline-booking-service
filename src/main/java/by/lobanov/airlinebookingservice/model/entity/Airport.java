@@ -45,4 +45,28 @@ public class Airport {
         this.latitude = latitude;
         this.timezone = timezone;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Airport airport)) return false;
+        return Objects.equals(airportCode, airport.airportCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(airportCode);
+    }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "airportCode='" + airportCode + '\'' +
+                ", airportName='" + airportName + '\'' +
+                ", city='" + city + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", timezone='" + timezone + '\'' +
+                '}';
+    }
 }

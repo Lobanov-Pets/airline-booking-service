@@ -1,9 +1,11 @@
 package by.lobanov.airlinebookingservice.model.entity;
 
-import by.lobanov.airlinebookingservice.model.constant.*;
+import by.lobanov.airlinebookingservice.model.consant.*;
 import by.lobanov.airlinebookingservice.model.embeddable.*;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.*;
 
 @Getter
 @Setter
@@ -21,7 +23,19 @@ public class Seat {
     @JoinColumn(name = "aircraft_code")
     private Aircraft aircraft;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "fare_conditions", length = 10)
     private FareCondition fareConditions;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Seat seat)) return false;
+        return Objects.equals(id, seat.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

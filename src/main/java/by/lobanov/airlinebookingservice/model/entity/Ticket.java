@@ -33,4 +33,16 @@ public class Ticket {
     @Type(JsonBinaryType.class)
     @Column(name = "contact_data", columnDefinition = "jsonb")
     private Map<String, String> contactData;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ticket ticket)) return false;
+        return Objects.equals(ticketNo, ticket.ticketNo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(ticketNo);
+    }
 }

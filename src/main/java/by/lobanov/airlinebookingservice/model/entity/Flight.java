@@ -1,6 +1,6 @@
 package by.lobanov.airlinebookingservice.model.entity;
 
-import by.lobanov.airlinebookingservice.model.constant.*;
+import by.lobanov.airlinebookingservice.model.consant.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,7 +39,7 @@ public class Flight {
     @JoinColumn(name = "arrival_airport", nullable = false)
     private Airport arrivalAirport;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "status", length = 20)
     private FlightStatus status;
 
@@ -55,4 +55,16 @@ public class Flight {
 
     @OneToMany(mappedBy = "flight")
     private Set<TicketFlight> ticketFlights;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Flight flight)) return false;
+        return Objects.equals(flightId, flight.flightId) && Objects.equals(flightNo, flight.flightNo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(flightId, flightNo);
+    }
 }

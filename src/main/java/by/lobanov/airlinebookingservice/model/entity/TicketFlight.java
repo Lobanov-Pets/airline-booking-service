@@ -1,12 +1,13 @@
 package by.lobanov.airlinebookingservice.model.entity;
 
-import by.lobanov.airlinebookingservice.model.constant.*;
+import by.lobanov.airlinebookingservice.model.consant.*;
 import by.lobanov.airlinebookingservice.model.embeddable.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.*;
+import java.util.*;
 
 @Getter
 @Setter
@@ -29,11 +30,23 @@ public class TicketFlight {
     @JoinColumn(name = "ticket_no")
     private Ticket ticket;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "fare_conditions", length = 10)
     private FareCondition fareConditions;
 
     @DecimalMin("0.00")
     @Column(name = "amount", precision = 10, scale = 2)
     private BigDecimal amount;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TicketFlight that)) return false;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
